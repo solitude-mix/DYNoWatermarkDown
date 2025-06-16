@@ -52,6 +52,7 @@ const INDEX_HTML = `<!DOCTYPE html>
   <textarea id=\"input\" placeholder=\"粘贴抖音分享内容\"></textarea>
   <button id=\"parseBtn\">开始解析</button>
   <button id=\"clearBtn\">清空</button>
+  <button id=\"loadingBtn\" disabled style=\"display:none;\">解析中...</button>
   <div class=\"video-container\"><video id=\"video\" controls style=\"display:none;\"></video></div>
   <br>
   <a id=\"download\" href=\"#\" download style=\"display:none;\"><button>下载视频</button></a>
@@ -63,6 +64,7 @@ const INDEX_HTML = `<!DOCTYPE html>
     const download = document.getElementById('download');
     const parseBtn = document.getElementById('parseBtn');
     const clearBtn = document.getElementById('clearBtn');
+    const loadingBtn = document.getElementById('loadingBtn');
 
     // 自动适配API路径
     function getApiUrl(url) {
@@ -78,6 +80,10 @@ const INDEX_HTML = `<!DOCTYPE html>
     }
 
     parseBtn.addEventListener('click', () => {
+      // 切换按钮状态
+      parseBtn.style.display = 'none';
+      clearBtn.style.display = 'none';
+      loadingBtn.style.display = 'inline-block';
       const text = input.value;
       const match = text.match(/https?:\/\/[\S]+douyin\.com\/[\S]+/);
       if (match) {
@@ -98,7 +104,18 @@ const INDEX_HTML = `<!DOCTYPE html>
               download.style.display = 'inline-block';
             }
           })
-          .catch(err => console.error('解析失败:', err));
+          .catch(err => console.error('解析失败:', err))
+          .finally(() => {
+            // 恢复按钮状态
+            parseBtn.style.display = 'inline-block';
+            clearBtn.style.display = 'inline-block';
+            loadingBtn.style.display = 'none';
+          });
+      } else {
+        // 恢复按钮状态
+        parseBtn.style.display = 'inline-block';
+        clearBtn.style.display = 'inline-block';
+        loadingBtn.style.display = 'none';
       }
     });
 
