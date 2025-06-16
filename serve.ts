@@ -144,7 +144,7 @@ const handler = async (req:Request) => {
             return new Response(JSON.stringify({ videoUrl }), {
                 headers: { 'Content-Type': 'application/json' }
             });
-        } catch (e) {
+        } catch (_e) {
             return new Response(JSON.stringify({ error: "解析失败" }), {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' }
