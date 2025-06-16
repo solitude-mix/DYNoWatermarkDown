@@ -21,6 +21,7 @@
 
 - **方法**：GET
 - **接口**：`/api?url=https://v.douyin.com/xxxx/`
+  - Cloudflare Worker 环境下也支持 `/?url=https://v.douyin.com/xxxx/`
 - **参数**：
     - `url`：DY视频分享链接
 
@@ -70,6 +71,7 @@
   ```
 
 - 部署后到worker设置开启访问即可
+- Worker 支持 `/api?url=...` 和 `/?url=...` 两种接口形式，前端无需修改即可适配。
 - 参考文档：[Cloudflare Workers 教程](https://docs.deno.com/examples/cloudflare_workers_tutorial/)
 
 ### 3. vercel 部署
